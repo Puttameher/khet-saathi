@@ -12,3 +12,4 @@ data/uploads/
 .DS_Store
 next-env.d.ts
 tsconfig.tsbuildinfo
+data/smoke/
