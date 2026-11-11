@@ -1,0 +1,35 @@
+{
+  "_note": "Deterministic advisory thresholds. Defaults are conservative general guidance, not product-label instructions. Always follow the pesticide label. Editable; shown on the Advanced screen.",
+  "version": 1,
+  "windowHours": 6,
+  "dayStartHour": 6,
+  "dayEndHour": 19,
+  "spray": {
+    "rainProbabilityWait": 40,
+    "rainProbabilitySkip": 70,
+    "rainMmWait": 0.5,
+    "rainMmSkip": 2.0,
+    "windKmhWait": 15,
+    "windKmhSkip": 25,
+    "gustKmhWait": 25,
+    "heatCWait": 32,
+    "heatCSkip": 38,
+    "humidityFungalRiskPct": 85,
+    "thunderCodes": [95, 96, 99]
+  },
+  "fertilize": {
+    "rainMmSkip": 10.0,
+    "rainProbabilityWait": 60,
+    "rainMmWait": 5.0
+  },
+  "irrigate": {
+    "rainMmSkip24h": 10.0,
+    "rainMmWait24h": 4.0,
+    "rainProbabilityWait24h": 70
+  },
+  "harvest": {
+    "rainProbabilityWait": 40,
+    "rainMmSkip": 2.0,
+    "thunderCodes": [95, 96, 99]
+  }
+}

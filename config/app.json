@@ -1,0 +1,10 @@
+{
+  "timezone": "Asia/Kolkata",
+  "monitorTimes": ["06:00", "12:00", "18:00"],
+  "weatherCacheMinutes": 45,
+  "languages": {
+    "hi": { "label": "हिंदी / Hinglish", "sttLanguageCode": "hi-IN,en-IN", "sttFormat": "codemix", "ttsLanguage": "hi-IN", "ttsVoice": "Shivani" },
+    "te": { "label": "తెలుగు", "sttLanguageCode": "te-IN,en-IN", "sttFormat": "codemix", "ttsLanguage": "te-IN", "ttsVoice": "Shivani" }
+  },
+  "limits": { "audioMaxBytes": 2000000, "imageMaxBytes": 6000000, "textMaxChars": 600 }
+}

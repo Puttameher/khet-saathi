@@ -1,0 +1,42 @@
+{
+  "_note": "PLACEHOLDER stage durations. VERIFY WITH ICAR / local KVK before relying on them. Day ranges are counted from sowing (or transplanting for rice).",
+  "_verified": false,
+  "crops": {
+    "wheat": {
+      "names": { "en": "Wheat", "hi": "गेहूं", "hinglish": "gehun", "te": "గోధుమ" },
+      "aliases": ["wheat", "gehun", "gehu", "gehoon", "गेहूं", "गेहूँ", "godhuma", "గోధుమ", "గోధుమలు"],
+      "totalDays": 125,
+      "stages": [
+        { "id": "seed", "fromDay": 0, "toDay": 7, "label": { "hi": "बीज", "te": "విత్తనం" } },
+        { "id": "sprout", "fromDay": 7, "toDay": 21, "label": { "hi": "अंकुर", "te": "మొలక" } },
+        { "id": "vegetative", "fromDay": 21, "toDay": 70, "label": { "hi": "बढ़वार (कल्ले)", "te": "పెరుగుదల" } },
+        { "id": "flowering", "fromDay": 70, "toDay": 95, "label": { "hi": "बाली / फूल", "te": "పూత" } },
+        { "id": "grain", "fromDay": 95, "toDay": 125, "label": { "hi": "दाना भराव", "te": "గింజ" } }
+      ]
+    },
+    "rice": {
+      "names": { "en": "Rice (paddy)", "hi": "धान", "hinglish": "dhaan", "te": "వరి" },
+      "aliases": ["rice", "paddy", "dhaan", "dhan", "chawal", "धान", "चावल", "vari", "వరి", "బియ్యం"],
+      "totalDays": 120,
+      "stages": [
+        { "id": "seed", "fromDay": 0, "toDay": 10, "label": { "hi": "बीज / नर्सरी", "te": "నారు" } },
+        { "id": "sprout", "fromDay": 10, "toDay": 30, "label": { "hi": "रोपाई के बाद", "te": "నాటిన తర్వాత" } },
+        { "id": "vegetative", "fromDay": 30, "toDay": 65, "label": { "hi": "कल्ले निकलना", "te": "పిలకలు" } },
+        { "id": "flowering", "fromDay": 65, "toDay": 90, "label": { "hi": "बाली / फूल", "te": "పూత" } },
+        { "id": "grain", "fromDay": 90, "toDay": 120, "label": { "hi": "दाना पकना", "te": "గింజ గట్టిపడటం" } }
+      ]
+    },
+    "onion": {
+      "names": { "en": "Onion", "hi": "प्याज", "hinglish": "pyaaz", "te": "ఉల్లి" },
+      "aliases": ["onion", "pyaaz", "pyaz", "kanda", "प्याज", "प्याज़", "कांदा", "ullipaya", "ulli", "ఉల్లి", "ఉల్లిపాయ"],
+      "totalDays": 130,
+      "stages": [
+        { "id": "seed", "fromDay": 0, "toDay": 10, "label": { "hi": "बीज", "te": "విత్తనం" } },
+        { "id": "sprout", "fromDay": 10, "toDay": 35, "label": { "hi": "पौध", "te": "మొలక" } },
+        { "id": "vegetative", "fromDay": 35, "toDay": 75, "label": { "hi": "पत्ती बढ़वार", "te": "ఆకు పెరుగుదల" } },
+        { "id": "flowering", "fromDay": 75, "toDay": 95, "label": { "hi": "कंद बनना शुरू", "te": "గడ్డ మొదలు" } },
+        { "id": "bulb", "fromDay": 95, "toDay": 130, "label": { "hi": "कंद पकना", "te": "గడ్డ పక్వం" } }
+      ]
+    }
+  }
+}
