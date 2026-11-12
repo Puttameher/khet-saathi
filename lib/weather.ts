@@ -226,10 +226,17 @@ const GeoSchema = z.object({
 });
 export interface Place { name: string; lat: number; lon: number; admin1?: string; admin2?: string; label: string }
 
+/** Open-Meteo only matches native-script names when `language` matches the script (STT gives Devanagari/Telugu). */
+export function geocodeLanguage(q: string): "hi" | "te" | "en" {
+  if (/[\u0900-\u097F]/.test(q)) return "hi";
+  if (/[\u0C00-\u0C7F]/.test(q)) return "te";
+  return "en";
+}
+
 export async function geocode(query: string): Promise<Place[]> {
   const q = query.trim().slice(0, 80);
   if (!q) return [];
-  const url = `https://geocoding-api.open-meteo.com/v1/search?${new URLSearchParams({ name: q, count: "5", language: "en", format: "json", countryCode: "IN" })}`;
+  const url = `https://geocoding-api.open-meteo.com/v1/search?${new URLSearchParams({ name: q, count: "5", language: geocodeLanguage(q), format: "json", countryCode: "IN" })}`;
   const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) throw new Error(`geocode ${res.status}`);
   const r = GeoSchema.parse(await res.json());
