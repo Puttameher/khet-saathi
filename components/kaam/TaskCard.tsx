@@ -62,7 +62,7 @@ export function TaskCard({ task, lang, t, onAction, pendingKind }: { task: TaskV
           className="relative grid h-14 w-14 shrink-0 place-items-center rounded-[18px]"
           style={{ background: `color-mix(in oklab, ${color} 16%, transparent)`, color }}
           animate={done ? { scale: [1, 1.18, 1] } : { scale: 1 }}
-          transition={{ type: "spring", stiffness: 420, damping: 12 }}
+          transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
         >
           {done ? <IconCheck size={28} strokeWidth={2.2} style={{ color: "var(--ks-leaf)" }} /> : <Icon size={28} />}
           {burst > 0 && <Celebrate key={burst} />}

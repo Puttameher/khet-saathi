@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import { and, desc, eq, inArray, isNull } from "drizzle-orm";
+import { and, desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import { getDb, schema } from "@/lib/db";
 import type { Task, TaskStatus, HistoryEntry } from "@/lib/tasks";
 import type { Evaluation, TaskType, Verdict } from "@/lib/rules";
@@ -208,7 +208,8 @@ export function listMessages(limit = 40) {
     .select()
     .from(schema.messages)
     .where(eq(schema.messages.farmerId, FARMER_ID))
-    .orderBy(desc(schema.messages.at))
+    // a turn writes farmer + reply with the same timestamp; rowid keeps insertion order
+    .orderBy(desc(schema.messages.at), desc(sql`rowid`))
     .limit(limit)
     .all()
     .reverse()
