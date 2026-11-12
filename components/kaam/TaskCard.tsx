@@ -103,7 +103,7 @@ export function TaskCard({ task, lang, t, onAction, pendingKind }: { task: TaskV
           </div>
           {(ev.window || ev.suggestedWindow) && (
             <div className="num mt-2 text-[13px]">
-              {ev.window && <span>{t.window}: <b>{istClock(ev.window.start)}–{istClock(ev.window.end)}</b></span>}
+              {ev.window && <span>{t.window}: <b>{windowText(ev.window, lang, t.allDay)}</b></span>}
               {ev.suggestedWindow && ev.verdict !== "GO" && <span>{t.suggested}: <b>{istDayClock(ev.suggestedWindow.start, lang)}</b></span>}
             </div>
           )}
@@ -131,6 +131,11 @@ export function TaskCard({ task, lang, t, onAction, pendingKind }: { task: TaskV
       )}
     </motion.li>
   );
+}
+
+function windowText(w: { start: number; end: number }, lang: Lang, allDay: string): string {
+  if (w.end - w.start >= 20 * 3_600_000) return `${istDateLabel(istDateKey(new Date(w.start)), lang).rel} · ${allDay}`;
+  return `${istClock(w.start)}–${istClock(w.end)}`;
 }
 
 function ActionBtn({ onClick, busy, color, icon, label, primary }: { onClick: () => void; busy: boolean; color: string; icon: React.ReactNode; label: string; primary?: boolean }) {

@@ -14,7 +14,7 @@ export function KhetTab() {
   return (
     <div id="panel-khet" className="no-scrollbar flex flex-1 flex-col gap-3 overflow-y-auto px-4 pb-4">
       <div className="relative h-[46vh] min-h-[280px] overflow-hidden rounded-[30px]" style={{ background: "linear-gradient(180deg, var(--sky-top, #8DB8DC), var(--sky-bottom, #E7EFE9))" }}>
-        <style>{`[data-theme="night"] #ks-scene{--sky-top:#0B1020;--sky-bottom:#2A2F48}`}</style>
+        <style>{`[data-theme="night"] #ks-scene{--sky-top:#0B1020;--sky-bottom:#2A2F48;--hill-far:#3B4A3A;--hill-near:#2C3A2C;--soil:#4A3626}`}</style>
         <svg id="ks-scene" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" className="absolute inset-0 h-full w-full" aria-hidden>
           <defs>
             <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
@@ -28,10 +28,14 @@ export function KhetTab() {
             </radialGradient>
           </defs>
           <rect width="400" height="300" fill="url(#sky)" />
-          <circle className="floaty" cx="300" cy="80" r="46" fill="url(#sun)" />
-          <path d="M0 190 C80 150 140 170 210 160 C290 148 340 165 400 150 V300 H0Z" fill="#7E9A73" opacity="0.75" />
-          <path d="M0 215 C90 190 170 205 250 196 C320 188 360 200 400 194 V300 H0Z" fill="#5F7F52" />
-          <path d="M0 232 H400 V300 H0Z" fill="#8A6643" />
+          {cur?.isDay === false ? (
+            <g className="floaty"><circle cx="300" cy="80" r="40" fill="#E9E4D4" opacity="0.12" /><circle cx="300" cy="80" r="20" fill="#EDE7D3" /><circle cx="308" cy="74" r="17" fill="var(--sky-top, #0B1020)" /></g>
+          ) : (
+            <circle className="floaty" cx="300" cy="80" r="46" fill="url(#sun)" />
+          )}
+          <path d="M0 190 C80 150 140 170 210 160 C290 148 340 165 400 150 V300 H0Z" fill="var(--hill-far, #7E9A73)" opacity="0.75" />
+          <path d="M0 215 C90 190 170 205 250 196 C320 188 360 200 400 194 V300 H0Z" fill="var(--hill-near, #5F7F52)" />
+          <path d="M0 232 H400 V300 H0Z" fill="var(--soil, #8A6643)" />
           {Array.from({ length: 9 }).map((_, i) => (
             <g key={i} className="row-reveal" style={{ ["--reveal-delay" as string]: `${i * 70}ms` }}>
               <path
