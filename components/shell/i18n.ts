@@ -1,0 +1,115 @@
+/** Short on-screen labels. The UI is mostly spoken; text here is a visual anchor next to icons. */
+import type { Lang } from "@/lib/config";
+import type { TaskType, Verdict, Reason } from "@/lib/rules";
+import type { TaskStatus } from "@/lib/tasks";
+
+export const T = {
+  hi: {
+    tabs: { khet: "खेत", kaam: "काम", baat: "बात" },
+    tapToSpeak: "दबाकर बोलिए",
+    listening: "सुन रही हूँ… रुकने के लिए दबाएँ",
+    thinking: "समझ रही हूँ…",
+    speaking: "बोल रही हूँ…",
+    typeHere: "यहाँ लिखें… जैसे: परसों स्प्रे करना है",
+    send: "भेजें",
+    typeInstead: "लिखकर",
+    briefingTitle: "आज की बात",
+    briefingPlay: "सुनें",
+    briefingLoading: "आज का हाल तैयार हो रहा है…",
+    alertTitle: "मौसम बदला",
+    dismiss: "ठीक है",
+    listen: "सुनें",
+    noTasks: "अभी कोई काम नहीं",
+    noTasksHint: "बात टैब में बोलिए — “परसों स्प्रे करना है”",
+    goSpeak: "बोलकर जोड़ें",
+    start: "शुरू",
+    done: "हो गया",
+    postpone: "बाद में",
+    source: "स्रोत",
+    checked: "जाँचा",
+    window: "अच्छा समय",
+    suggested: "बेहतर समय",
+    emptyChat: "नमस्ते! अपने खेत का कोई भी काम बोलिए।",
+    examples: ["परसों स्प्रे करना है", "कल पानी देना है", "स्प्रे हो गया", "कल स्प्रे कर सकता हूँ?"],
+    you: "आप",
+    saathi: "साथी",
+    retry: "फिर से",
+    sceneSoon: "आपका खेत यहाँ जीवंत दिखेगा",
+    stale: "पुराना डेटा",
+    demo: "डेमो मौसम",
+    refresh: "मौसम ताज़ा करें",
+    today: "आज",
+    active: "चालू काम",
+    recent: "पूरे हुए",
+  },
+  te: {
+    tabs: { khet: "పొలం", kaam: "పనులు", baat: "మాట" },
+    tapToSpeak: "నొక్కి మాట్లాడండి",
+    listening: "వింటున్నాను… ఆపడానికి నొక్కండి",
+    thinking: "అర్థం చేసుకుంటున్నాను…",
+    speaking: "చెబుతున్నాను…",
+    typeHere: "ఇక్కడ టైప్ చేయండి… ఉదా: ఎల్లుండి మందు కొట్టాలి",
+    send: "పంపు",
+    typeInstead: "టైప్",
+    briefingTitle: "ఈరోజు సమాచారం",
+    briefingPlay: "వినండి",
+    briefingLoading: "ఈరోజు సమాచారం సిద్ధమవుతోంది…",
+    alertTitle: "వాతావరణం మారింది",
+    dismiss: "సరే",
+    listen: "వినండి",
+    noTasks: "ఇంకా పనులు లేవు",
+    noTasksHint: "మాట ట్యాబ్‌లో చెప్పండి — “ఎల్లుండి మందు కొట్టాలి”",
+    goSpeak: "మాట్లాడి జోడించండి",
+    start: "మొదలు",
+    done: "అయిపోయింది",
+    postpone: "తర్వాత",
+    source: "మూలం",
+    checked: "చూసింది",
+    window: "మంచి సమయం",
+    suggested: "మెరుగైన సమయం",
+    emptyChat: "నమస్కారం! మీ పొలం పని ఏదైనా చెప్పండి.",
+    examples: ["ఎల్లుండి మందు కొట్టాలి", "రేపు నీరు పెట్టాలి", "మందు కొట్టడం అయిపోయింది", "రేపు పిచికారీ చేయొచ్చా?"],
+    you: "మీరు",
+    saathi: "సాథీ",
+    retry: "మళ్ళీ",
+    sceneSoon: "మీ పొలం ఇక్కడ సజీవంగా కనిపిస్తుంది",
+    stale: "పాత సమాచారం",
+    demo: "డెమో వాతావరణం",
+    refresh: "వాతావరణం తాజా చేయండి",
+    today: "ఈరోజు",
+    active: "జరుగుతున్న పనులు",
+    recent: "పూర్తయినవి",
+  },
+} satisfies Record<Lang, unknown>;
+export type Copy = (typeof T)["hi"];
+
+export const TASK_LABEL: Record<Lang, Record<TaskType, string>> = {
+  hi: { spray: "स्प्रे", irrigate: "सिंचाई", fertilize: "खाद", harvest: "कटाई", other: "काम" },
+  te: { spray: "మందు పిచికారీ", irrigate: "నీరు", fertilize: "ఎరువు", harvest: "కోత", other: "పని" },
+};
+
+export const STATUS_LABEL: Record<Lang, Record<TaskStatus, string>> = {
+  hi: { planned: "तय", go_ahead: "कर सकते हैं", skip_suggested: "रुकिए", in_progress: "चल रहा", done: "पूरा", postponed: "बाद में", cancelled: "रद्द" },
+  te: { planned: "నమోదు", go_ahead: "చేయవచ్చు", skip_suggested: "ఆగండి", in_progress: "జరుగుతోంది", done: "పూర్తి", postponed: "తర్వాత", cancelled: "రద్దు" },
+};
+
+export const VERDICT_LABEL: Record<Lang, Record<Verdict, string>> = {
+  hi: { GO: "करें", WAIT: "रुकें", SKIP_TODAY: "आज नहीं", UNKNOWN: "पता नहीं" },
+  te: { GO: "చేయండి", WAIT: "ఆగండి", SKIP_TODAY: "ఈరోజు వద్దు", UNKNOWN: "తెలియదు" },
+};
+
+/** Compact, number-first reason text for chips (spoken explanations come from lib/speech on the server). */
+export function reasonText(r: Reason, lang: Lang): string | null {
+  const v = r.value != null ? Math.round(r.value * 10) / 10 : null;
+  const hi: Partial<Record<Reason["code"], string>> = {
+    RAIN_PROB: `बारिश ${v}%`, RAIN_MM: `बारिश ${v} mm`, RAIN_24H: `24 घंटे में ${v} mm`, WIND: `हवा ${v} km/h`,
+    GUST: `झोंके ${v} km/h`, HEAT: `गर्मी ${v}°C`, THUNDER: "आंधी-बिजली", FUNGAL_RISK: "नमी: फफूंद खतरा",
+    NO_FORECAST: "मौसम डेटा नहीं", DAY_OVER: "आज का समय गया", CLEAR: "मौसम साफ़",
+  };
+  const te: Partial<Record<Reason["code"], string>> = {
+    RAIN_PROB: `వర్షం ${v}%`, RAIN_MM: `వర్షం ${v} mm`, RAIN_24H: `24 గం. ${v} mm`, WIND: `గాలి ${v} km/h`,
+    GUST: `ఈదురు ${v} km/h`, HEAT: `వేడి ${v}°C`, THUNDER: "ఉరుములు", FUNGAL_RISK: "తేమ: తెగులు ప్రమాదం",
+    NO_FORECAST: "వాతావరణ సమాచారం లేదు", DAY_OVER: "ఈరోజు సమయం అయిపోయింది", CLEAR: "వాతావరణం బాగుంది",
+  };
+  return (lang === "te" ? te : hi)[r.code] ?? null;
+}

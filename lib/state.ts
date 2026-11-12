@@ -8,7 +8,7 @@ import { diffDays, istDateKey } from "@/lib/time";
 import { gnaniStt, gnaniTts } from "@/lib/gnani";
 import { llm, LLM_MODEL } from "@/lib/llm";
 import { demoEnabled } from "@/lib/demo";
-import { getOnboarding } from "@/lib/onboarding";
+import { getOnboarding, onboardingPrompt } from "@/lib/onboarding";
 import type { HourPoint, DayPoint } from "@/lib/weather";
 import type { TaskType } from "@/lib/rules";
 import type { PartOfDay } from "@/lib/time";
@@ -30,6 +30,8 @@ export interface AppState {
   now: string;
   profile: Profile & { onboarded: boolean };
   onboardingStep: string | null;
+  /** Next onboarding question in the farmer's language, null once onboarded. */
+  onboardingPrompt: string | null;
   crop: { id: string; name: string; day: number; stage: string; stageLabel: string; progress: number } | null;
   tasks: TaskView[];
   alerts: AlertRow[];
@@ -98,6 +100,7 @@ export async function buildState(now = new Date(), opts: { force?: boolean } = {
     now: now.toISOString(),
     profile: { ...p, onboarded: !!p.confirmedAt },
     onboardingStep: p.confirmedAt ? null : getOnboarding().step,
+    onboardingPrompt: p.confirmedAt ? null : onboardingPrompt(lang),
     crop,
     tasks: views,
     alerts: pendingAlerts(),

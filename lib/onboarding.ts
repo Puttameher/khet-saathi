@@ -101,6 +101,13 @@ function nextStep(s: OnboardingState): Step {
   return "confirm";
 }
 
+/** Read-only: the question the farmer should hear next (no state write). */
+export function onboardingPrompt(lang: Lang): string {
+  const s = getOnboarding();
+  const step = nextStep(s);
+  return step === "confirm" ? readBack(s, lang) : Q[lang][step as Exclude<Step, "done" | "confirm">];
+}
+
 export function firstQuestion(lang: Lang): { text: string; state: OnboardingState } {
   const s = getOnboarding();
   const step = nextStep(s);
