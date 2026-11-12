@@ -1,0 +1,154 @@
+@import "tailwindcss";
+@import "@fontsource/noto-sans-devanagari/400.css";
+@import "@fontsource/noto-sans-devanagari/500.css";
+@import "@fontsource/noto-sans-devanagari/600.css";
+@import "@fontsource/noto-sans-telugu/400.css";
+@import "@fontsource/noto-sans-telugu/500.css";
+@import "@fontsource/noto-sans-telugu/600.css";
+@import "@fontsource/instrument-serif/400.css";
+
+/* Raw palette variables (--ks-*) are injected from design/tokens.ts by app/layout.tsx. */
+
+@theme inline {
+  --font-sans: var(--font-geist-sans), "Noto Sans Devanagari", "Noto Sans Telugu", system-ui, sans-serif;
+  --font-display: "Instrument Serif", "Noto Sans Devanagari", "Noto Sans Telugu", Georgia, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-line: var(--line);
+  --color-card: var(--card);
+  --color-haldi: var(--ks-haldi);
+  --color-haldi-deep: var(--ks-haldi-deep);
+  --color-leaf: var(--ks-leaf);
+  --color-leaf-bright: var(--ks-leaf-bright);
+  --color-clay: var(--ks-clay);
+  --color-amber: var(--ks-amber);
+  --color-monsoon: var(--ks-monsoon);
+  --color-parchment: var(--ks-parchment-100);
+  --color-loam: var(--ks-loam-900);
+  --radius-ks: var(--ks-r-lg);
+}
+
+:root,
+[data-theme="day"] {
+  --bg: var(--ks-parchment-100);
+  --fg: var(--ks-ink);
+  --muted: #5d5446;
+  --subtle: #8a8170;
+  --line: rgba(30, 25, 19, 0.09);
+  --card: rgba(255, 252, 245, 0.72);
+  --glass: rgba(255, 251, 243, 0.58);
+  --glass-strong: rgba(255, 251, 243, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.65);
+  --glass-edge: rgba(30, 25, 19, 0.08);
+  --glass-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 12px 40px -12px rgba(58, 41, 20, 0.28), 0 2px 8px -2px rgba(58, 41, 20, 0.12);
+  --halo: radial-gradient(1200px 600px at 50% -10%, rgba(227, 169, 59, 0.18), transparent 60%);
+  color-scheme: light;
+}
+[data-theme="night"] {
+  --bg: var(--ks-loam-950);
+  --fg: #f3ede1;
+  --muted: #bdb3a2;
+  --subtle: #8a8170;
+  --line: rgba(255, 245, 225, 0.08);
+  --card: rgba(38, 32, 25, 0.66);
+  --glass: rgba(26, 22, 18, 0.5);
+  --glass-strong: rgba(26, 22, 18, 0.8);
+  --glass-border: rgba(255, 240, 210, 0.1);
+  --glass-edge: rgba(0, 0, 0, 0.4);
+  --glass-shadow: 0 1px 0 rgba(255, 240, 210, 0.08) inset, 0 18px 50px -14px rgba(0, 0, 0, 0.7), 0 2px 10px -2px rgba(0, 0, 0, 0.5);
+  --halo: radial-gradient(1000px 500px at 50% -10%, rgba(227, 169, 59, 0.1), transparent 60%);
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  letter-spacing: -0.005em;
+  transition: background-color 900ms var(--ks-ease-out), color 900ms var(--ks-ease-out);
+}
+:lang(hi), :lang(te) { letter-spacing: 0; line-height: 1.55; }
+
+@layer components {
+  .glass {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(22px) saturate(150%);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+  }
+  .glass-strong {
+    background: var(--glass-strong);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(28px) saturate(160%);
+    -webkit-backdrop-filter: blur(28px) saturate(160%);
+  }
+  .hairline { border-color: var(--line); }
+  .tap {
+    min-height: var(--ks-tap-min);
+    min-width: var(--ks-tap-min);
+    transition: transform var(--ks-dur-fast) var(--ks-ease-out), background-color var(--ks-dur-base) var(--ks-ease-out), box-shadow var(--ks-dur-base) var(--ks-ease-out);
+    touch-action: manipulation;
+    user-select: none;
+  }
+  .tap:active { transform: scale(0.96); }
+  .tap:focus-visible { outline: 2px solid var(--ks-haldi); outline-offset: 3px; }
+  .eyebrow { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--subtle); font-weight: 500; }
+  .num { font-variant-numeric: tabular-nums; }
+  .shine {
+    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%) no-repeat;
+    background-size: 250% 100%;
+    animation: shine 2.4s var(--ks-ease-out) infinite;
+  }
+}
+
+/* --- scene motion --- */
+.row-sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: sway var(--sway-dur, 3.2s) ease-in-out infinite alternate;
+  animation-delay: var(--sway-delay, 0s);
+  will-change: transform;
+}
+@keyframes sway {
+  from { transform: skewX(calc(var(--sway-amp, 2deg) * -1)); }
+  to { transform: skewX(var(--sway-amp, 2deg)); }
+}
+.row-reveal { animation: rowIn 900ms var(--ks-ease-out) both; animation-delay: var(--reveal-delay, 0ms); }
+@keyframes rowIn {
+  from { opacity: 0; transform: translateY(14px) scaleY(0.6); }
+  to { opacity: 1; transform: none; }
+}
+.breathe { animation: breathe 4.2s ease-in-out infinite; transform-origin: center; }
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.045); }
+}
+@keyframes shine { from { background-position: 150% 0; } to { background-position: -100% 0; } }
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.floaty { animation: floaty 6s ease-in-out infinite; }
+@keyframes pulseRing {
+  0% { transform: scale(0.9); opacity: 0.55; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.pulse-ring { animation: pulseRing 1.8s var(--ks-ease-out) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  .row-sway { animation: none; }
+}
+
+/* range-free scrubber thumb uses pointer events; hide scrollbars in sheets */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
