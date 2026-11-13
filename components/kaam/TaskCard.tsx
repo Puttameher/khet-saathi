@@ -10,6 +10,7 @@ import { IconArrowRight, IconCheck, IconClock, IconDots, IconDrop, IconPlay, Ico
 import { STATUS_LABEL, TASK_LABEL, VERDICT_LABEL, reasonText, type Copy } from "@/components/shell/i18n";
 import { istClock, istDateLabel, istDayClock } from "@/components/shell/time";
 import { verdictColor } from "@/components/shell/verdict";
+import { LabelCapture, storedLabelOf } from "@/components/kaam/LabelCapture";
 
 export type TaskAction = { kind: "START" | "COMPLETE" | "POSTPONE" } | { kind: "RESCHEDULE"; date: string };
 
@@ -29,6 +30,9 @@ const sevRank: Record<Reason["severity"], number> = { skip: 0, wait: 1, info: 2,
 
 export function TaskCard({ task, lang, t, onAction, pendingKind }: { task: TaskView; lang: Lang; t: Copy; onAction: (a: TaskAction) => void; pendingKind: string | null }) {
   const [burst, setBurst] = useState(0);
+  const [labelOpen, setLabelOpen] = useState(false);
+  const labelable = (task.type === "spray" || task.type === "fertilize") && task.status !== "cancelled";
+  const stored = labelable ? storedLabelOf(task) : null;
   const { Icon, color } = TYPE_STYLE[task.type];
   const d = istDateLabel(task.plannedDate, lang);
   const ev = task.evaluation;
@@ -113,6 +117,26 @@ export function TaskCard({ task, lang, t, onAction, pendingKind }: { task: TaskV
           </div>
         </div>
       )}
+
+      {labelable && (
+        <button
+          onClick={() => setLabelOpen(true)}
+          className="tap mt-3 flex min-h-12 w-full items-center gap-2.5 rounded-[16px] px-3 text-left text-[14px] font-semibold"
+          style={stored ? { background: "color-mix(in oklab, var(--ks-clay) 10%, transparent)" } : { background: "color-mix(in oklab, var(--ks-haldi) 14%, transparent)", color: "var(--ks-haldi-deep)" }}
+        >
+          <IconSack size={20} />
+          {stored ? (
+            <span className="min-w-0 flex-1 truncate">
+              {stored.productName ?? "—"}
+              <span className="font-medium" style={{ color: "var(--ks-clay)" }}> · {lang === "te" ? "కోతకు ముందు" : "कटाई से पहले"}: {stored.preHarvestInterval ?? "?"}</span>
+            </span>
+          ) : (
+            <span className="flex-1">{lang === "te" ? "ప్యాకెట్ చదవండి" : "पैकेट पढ़ें"} <span className="font-medium opacity-70">· label</span></span>
+          )}
+          <IconArrowRight size={16} />
+        </button>
+      )}
+      {labelable && <LabelCapture task={task} lang={lang} open={labelOpen} onClose={() => setLabelOpen(false)} />}
 
       {!done && task.status !== "cancelled" && (
         <div className="mt-3 flex gap-2">
