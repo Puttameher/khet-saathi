@@ -70,3 +70,13 @@ describe("scene: sky + weather", () => {
     expect(swayDeg(200)).toBe(11);
   });
 });
+
+import { mixHex } from "@/lib/client/scene";
+describe("scene: colour", () => {
+  it("mixHex blends endpoints and clamps", () => {
+    expect(mixHex("#000000", "#ffffff", 0)).toBe("#000000");
+    expect(mixHex("#000000", "#ffffff", 1)).toBe("#ffffff");
+    expect(mixHex("#000000", "#ffffff", 0.5)).toBe("#808080");
+    expect(mixHex("#102030", "#102030", 2)).toBe("#102030");
+  });
+});

@@ -172,3 +172,16 @@ export function swayDeg(windKmh: number, gustKmh: number | null = null): number 
 export function cloudSpeed(windKmh: number, depth: number): number {
   return (1.5 + windKmh * 0.55) * (0.45 + depth * 0.45);
 }
+
+// ---------- colour ----------
+function hexToRgb(h: string): [number, number, number] {
+  const s = h.replace("#", "");
+  const v = parseInt(s.length === 3 ? s.split("").map((c) => c + c).join("") : s, 16);
+  return [(v >> 16) & 255, (v >> 8) & 255, v & 255];
+}
+/** Mix two #rrggbb colours (f=0 → a, f=1 → b). */
+export function mixHex(a: string, b: string, f: number): string {
+  const x = hexToRgb(a), y = hexToRgb(b), k = clamp01(f);
+  const c = [0, 1, 2].map((i) => Math.round(lerp(x[i]!, y[i]!, k)));
+  return `#${c.map((n) => n.toString(16).padStart(2, "0")).join("")}`;
+}
