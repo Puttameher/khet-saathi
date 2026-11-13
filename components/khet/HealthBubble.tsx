@@ -46,7 +46,7 @@ export function HealthBubble({ health }: { health: HealthResult }) {
       <motion.button
         type="button"
         onClick={() => { setOpen(true); try { navigator.vibrate?.(8); } catch { /* unsupported */ } }}
-        className="tap absolute right-3 top-3 grid h-[78px] w-[78px] place-items-center rounded-full"
+        className="tap absolute right-4 top-4 z-10 grid h-[78px] w-[78px] place-items-center rounded-full"
         aria-label={`${t.careTitle}: ${health.score} / 100. ${health.label}`}
         data-testid="health-orb"
         initial={{ scale: 0.4, opacity: 0 }}
@@ -57,9 +57,9 @@ export function HealthBubble({ health }: { health: HealthResult }) {
         {/* glow */}
         <motion.span
           aria-hidden
-          className="absolute inset-[-10px] rounded-full"
+          className="absolute inset-[-6px] rounded-full"
           style={{ background: `radial-gradient(circle, ${c.glow}, transparent 68%)` }}
-          animate={{ opacity: [0.55, 1, 0.55], scale: [0.94, 1.06, 0.94] }}
+          animate={{ opacity: [0.55, 1, 0.55], scale: [0.94, 1.03, 0.94] }}
           transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut" }}
         />
         {/* orb body breathes; re-keyed on score change for a spring pop */}
@@ -71,7 +71,7 @@ export function HealthBubble({ health }: { health: HealthResult }) {
             background: `radial-gradient(circle at 34% 28%, rgba(255,255,255,0.85) 0%, ${c.core} 22%, ${c.mid} 78%, ${c.mid} 100%)`,
             boxShadow: `0 10px 30px -8px ${c.glow}, inset 0 -6px 14px rgba(0,0,0,0.18), inset 0 2px 3px rgba(255,255,255,0.5)`,
           }}
-          initial={bump === 0 ? false : { scale: 1.22 }}
+          initial={bump === 0 ? false : { scale: 1.16 }}
           animate={{ scale: [1, 1.045, 1] }}
           transition={{ scale: { duration: 4.2, repeat: Infinity, ease: "easeInOut" } }}
         />
