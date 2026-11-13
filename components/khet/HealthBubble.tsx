@@ -19,13 +19,17 @@ const ICON = {
   dryStress: IconSun, heatStress: IconSun, waterlog: IconCloudRain, checkIn: IconSparkle,
 } as const;
 
+/** Last score the orb showed, kept across tab switches so a change made elsewhere still springs. */
+let lastShown: number | null = null;
+
 export function HealthBubble({ health }: { health: HealthResult }) {
   const { t } = useApp();
   const [open, setOpen] = useState(false);
   const c = HC[health.band];
-  const spring = useSpring(health.score, { stiffness: 110, damping: 15, mass: 0.9 });
-  const [shown, setShown] = useState(health.score);
-  const prev = useRef(health.score);
+  const from = lastShown ?? health.score;
+  const spring = useSpring(from, { stiffness: 110, damping: 15, mass: 0.9 });
+  const [shown, setShown] = useState(from);
+  const prev = useRef(from);
   const [bump, setBump] = useState(0);
   useMotionValueEvent(spring, "change", (v) => setShown(Math.round(v)));
   useEffect(() => {
@@ -33,6 +37,7 @@ export function HealthBubble({ health }: { health: HealthResult }) {
       setBump((b) => b + (health.score > prev.current ? 1 : -1));
       prev.current = health.score;
     }
+    lastShown = health.score;
     spring.set(health.score);
   }, [health.score, spring]);
 

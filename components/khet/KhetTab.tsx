@@ -1,13 +1,18 @@
 "use client";
-import { useMemo, useState } from "react";
-import { motion } from "motion/react";
+import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useApp } from "@/components/shell/AppContext";
 import { BriefingCard } from "@/components/shell/BriefingCard";
 import { istClock, istDayClock } from "@/components/shell/time";
 import { KhetScene } from "@/components/khet/KhetScene";
 import { HealthBubble } from "@/components/khet/HealthBubble";
 import { TimeScrubber } from "@/components/khet/TimeScrubber";
+import { RowGlow, SprayLayer } from "@/components/khet/SprayLayer";
+import { IconSpray } from "@/components/shell/Icons";
 import type { CropId, StageId } from "@/components/khet/sprites";
+
+/** Spray tasks seen in progress, kept across tab switches so "done" is noticed on return. */
+let seenSpraying: string[] = [];
 
 /** Approximate centre of India: used for the sun ONLY when the farm location is not known yet. */
 const FALLBACK_LATLON = { lat: 22.97, lon: 78.66 };
@@ -22,11 +27,32 @@ export function KhetTab() {
   const sceneCrop = useMemo(() => (crop ? { id: crop.id as CropId, stage: crop.stage as StageId } : null), [crop?.id, crop?.stage]); // eslint-disable-line react-hooks/exhaustive-deps
   const hourly = wx?.hourly ?? null;
   const isDemo = wx?.source === "demo";
+  const reduced = useReducedMotion();
+
+  // spray animation: any spray task in progress → sprayer crosses the rows; when one of those
+  // tasks turns done → rows glow once (the Care Score orb springs on its own score change).
+  const tasks = state?.tasks;
+  const sprayingIds = useMemo(() => (tasks ?? []).filter((x) => x.type === "spray" && x.status === "in_progress").map((x) => x.id), [tasks]);
+  const spraying = sprayingIds.length > 0;
+  const [glowKey, setGlowKey] = useState(0);
+  useEffect(() => {
+    if (!tasks) return;
+    const finished = seenSpraying.some((id) => tasks.find((x) => x.id === id)?.status === "done");
+    seenSpraying = sprayingIds;
+    if (finished) setGlowKey((k) => k + 1);
+  }, [sprayingIds, tasks]);
+  useEffect(() => {
+    if (!glowKey) return;
+    const tm = setTimeout(() => setGlowKey(0), 2600);
+    return () => clearTimeout(tm);
+  }, [glowKey]);
 
   return (
     <div id="panel-khet" className="no-scrollbar flex flex-1 flex-col gap-3 overflow-y-auto px-4 pb-4">
       <div className="relative h-[44vh] min-h-[290px] shrink-0 overflow-hidden rounded-[30px]" style={{ boxShadow: "var(--glass-shadow)" }}>
         <KhetScene hourly={hourly} time={scrubT} lat={lat} lon={lon} crop={sceneCrop} />
+        {spraying && !reduced && <SprayLayer />}
+        {glowKey > 0 && !reduced && <RowGlow key={glowKey} />}
 
         {/* data source + timestamp for every weather-driven visual */}
         <div className="absolute left-3 top-3 flex max-w-[64%] flex-col items-start gap-1.5">
@@ -44,6 +70,21 @@ export function KhetTab() {
               {t.noWeather} · {t.noWeatherHint}
             </div>
           )}
+          <AnimatePresence initial={false}>
+            {spraying && (
+              <motion.div
+                key="spraying"
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11.5px] font-semibold text-white backdrop-blur-md"
+                style={{ background: "color-mix(in srgb, var(--ks-leaf) 78%, transparent)" }}
+                data-testid="spraying-badge"
+              >
+                <IconSpray size={14} /> {t.sprayingNow}
+              </motion.div>
+            )}
+          </AnimatePresence>
           {scrubT != null && (
             <div className="num rounded-full bg-black/30 px-2.5 py-1 text-[11.5px] text-white/90 backdrop-blur-md">{t.forecastAt} · {istDayClock(scrubT, lang)}</div>
           )}
