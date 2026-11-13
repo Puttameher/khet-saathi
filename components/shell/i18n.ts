@@ -56,6 +56,11 @@ export const T = {
     close: "बंद करें",
     sprayStrip: "स्प्रे का समय",
     drag: "खींचकर आगे का मौसम देखें",
+    scrubLabel: "अगले 48 घंटे का मौसम",
+    backToNow: "अभी के मौसम पर लौटें",
+    sprayGo: "ठीक",
+    sprayWait: "रुकें",
+    spraySkip: "नहीं",
   },
   te: {
     tabs: { khet: "పొలం", kaam: "పనులు", baat: "మాట" },
@@ -109,6 +114,11 @@ export const T = {
     close: "మూసివేయి",
     sprayStrip: "పిచికారీ సమయం",
     drag: "లాగి ముందు వాతావరణం చూడండి",
+    scrubLabel: "తదుపరి 48 గంటల వాతావరణం",
+    backToNow: "ఇప్పటి వాతావరణానికి తిరిగి",
+    sprayGo: "అనుకూలం",
+    sprayWait: "ఆగండి",
+    spraySkip: "వద్దు",
   },
 } satisfies Record<Lang, unknown>;
 export type Copy = (typeof T)["hi"];

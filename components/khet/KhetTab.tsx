@@ -3,11 +3,10 @@ import { useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { useApp } from "@/components/shell/AppContext";
 import { BriefingCard } from "@/components/shell/BriefingCard";
-import { IconCloudRain, IconDrop, IconWind } from "@/components/shell/Icons";
 import { istClock, istDayClock } from "@/components/shell/time";
 import { KhetScene } from "@/components/khet/KhetScene";
 import { HealthBubble } from "@/components/khet/HealthBubble";
-import { weatherAt } from "@/lib/client/scene";
+import { TimeScrubber } from "@/components/khet/TimeScrubber";
 import type { CropId, StageId } from "@/components/khet/sprites";
 
 /** Approximate centre of India: used for the sun ONLY when the farm location is not known yet. */
@@ -22,13 +21,11 @@ export function KhetTab() {
   const lon = state?.profile.lon ?? FALLBACK_LATLON.lon;
   const sceneCrop = useMemo(() => (crop ? { id: crop.id as CropId, stage: crop.stage as StageId } : null), [crop?.id, crop?.stage]); // eslint-disable-line react-hooks/exhaustive-deps
   const hourly = wx?.hourly ?? null;
-  const showT = scrubT ?? Date.now();
-  const at = useMemo(() => (hourly ? weatherAt(hourly, showT) : null), [hourly, showT]);
   const isDemo = wx?.source === "demo";
 
   return (
     <div id="panel-khet" className="no-scrollbar flex flex-1 flex-col gap-3 overflow-y-auto px-4 pb-4">
-      <div className="relative h-[50vh] min-h-[300px] shrink-0 overflow-hidden rounded-[30px]" style={{ boxShadow: "var(--glass-shadow)" }}>
+      <div className="relative h-[44vh] min-h-[290px] shrink-0 overflow-hidden rounded-[30px]" style={{ boxShadow: "var(--glass-shadow)" }}>
         <KhetScene hourly={hourly} time={scrubT} lat={lat} lon={lon} crop={sceneCrop} />
 
         {/* data source + timestamp for every weather-driven visual */}
@@ -72,23 +69,19 @@ export function KhetTab() {
         </div>
       </div>
 
-      {at && (
-        <div className="grid grid-cols-3 gap-2">
-          <Stat icon={<IconCloudRain size={20} />} color="var(--ks-monsoon)" value={at.precipProb != null ? `${Math.round(at.precipProb)}%` : `${at.precipMm.toFixed(1)} mm`} />
-          <Stat icon={<IconWind size={20} />} color="var(--ks-sage)" value={`${Math.round(at.windKmh)} km/h`} />
-          <Stat icon={<IconDrop size={20} />} color="var(--ks-sky)" value={`${Math.round(at.humidity)}%`} />
-        </div>
+      {wx && hourly && hourly.length > 1 && (
+        <TimeScrubber
+          hourly={hourly}
+          strip={state?.strip ?? []}
+          value={scrubT}
+          onChange={setScrubT}
+          lat={lat}
+          lon={lon}
+          source={{ label: "Open-Meteo", fetchedAt: wx.fetchedAt, stale: wx.stale, demo: isDemo }}
+        />
       )}
       <BriefingCard compact />
     </div>
   );
 }
 
-function Stat({ icon, color, value }: { icon: React.ReactNode; color: string; value: string }) {
-  return (
-    <div className="glass flex h-16 items-center justify-center gap-2 rounded-[20px]">
-      <span style={{ color }}>{icon}</span>
-      <span className="num text-[16px] font-semibold">{value}</span>
-    </div>
-  );
-}
