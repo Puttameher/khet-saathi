@@ -125,7 +125,7 @@ At the time of writing there are 105 passing tests across 10 files. They cover t
 - **Single farmer per instance.** There are no accounts or auth; it's a hackathon demo.
 - **Three crops only** (wheat, rice, onion). Stage durations are placeholders, not agronomy advice.
 - **Spray thresholds** are conservative general defaults. They haven't been calibrated per crop or chemical.
-- **No recorded-audio e2e test yet.** The flow test runs on text. The `test:live` script points to a `tests/e2e` folder that doesn't exist yet.
+- **No recorded-audio e2e test yet.** The flow test runs on text; for a live check against the real Gnani APIs use `npm run smoke:gnani`.
 - **No Advanced settings screen yet.** Thresholds appear inside each verdict, but they can only be edited in `config/spray-rules.json`.
 - Gnani accounts can be limited to one concurrent request, so STT and TTS calls are queued one at a time. A cold TTS miss adds latency; repeated phrases come from the cache.
 - In-process scheduler: on serverless hosts, set `SCHEDULER_ENABLED=0` and call `POST /api/monitor` from an external cron.

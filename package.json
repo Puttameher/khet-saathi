@@ -14,8 +14,7 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "smoke:gnani": "NODE_USE_ENV_PROXY=1 tsx scripts/smoke-gnani.ts",
-    "monitor:once": "NODE_USE_ENV_PROXY=1 tsx scripts/run-monitor.ts",
-    "test:live": "NODE_USE_ENV_PROXY=1 KS_LIVE=1 vitest run tests/e2e"
+    "monitor:once": "NODE_USE_ENV_PROXY=1 tsx scripts/run-monitor.ts"
   },
   "dependencies": {
     "@fontsource/instrument-serif": "^5.3.0",
